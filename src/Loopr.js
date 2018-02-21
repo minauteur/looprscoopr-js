@@ -13,7 +13,7 @@ export class Loopr extends Component {
         return (
             <div className="Container">
                 <ul>
-                    {this.state.items.map(item=><li key={item.name}>{item.name} <a href={item.url}><img src={item.img}></img></a></li>)}
+                    {this.state.items.map(item=><li key={item.name}>{item.name} <a href={item.url}><img src={item.img} alt={item.name}></img></a></li>)}
                 </ul>
             </div>
         );
