@@ -5,7 +5,7 @@ export class Loopr extends Component {
         this.state = { items: [] };
     }
     componentDidMount() {
-        fetch('http://localhost:8080') // returns a promise object
+        fetch('https://microwavemansion.com/loopinfo') // returns a promise object
             .then(result => result.json()) // still returns a promise object, U need to chain it again
             .then(items => this.setState({items}));
     }
