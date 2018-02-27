@@ -3,12 +3,45 @@ export class Loopr extends Component {
     constructor() {
         super();
         this.state = { items: [] };
+        this.getLoops();
+        this.checkLoops();
     }
-    componentDidMount() {
-        fetch('https://microwavemansion.com/loopinfo') // returns a promise object
+    getLoops() {
+        this.getLoops = function () {
+            fetch('https://microwavemansion.com/loopinfo') // returns a promise object
             .then(result => result.json()) // still returns a promise object, U need to chain it again
             .then(items => this.setState({items}));
+        };
     }
+    checkLoops() {
+        this.checkLoops = function () {
+            fetch('https://microwavemansion.com/loopinfo')
+            .then(result => result.json())
+            .then(items => {
+               if (items == this.state.items) {
+                return false
+               } else {
+                   return true
+               }
+            })
+        }
+    }
+    componentDidMount() {
+        setInterval(this.getLoops(), 30000);
+    }
+    // shouldComponentUpdate() {
+    //     setInterval(this.checkLoops(), 30000);
+    // }
+    // componentWillUpdate() {
+    //     this.getLoops();
+    // }
+    // componentWillUpdate() {
+    //     setInterval(
+    //         fetch('https://microwavemansion.com/loopinfo')
+    //         .then(result => result.json())
+    //         .then(items => this.setState({items})), 300000
+    //     )
+    // }
     render() {
         return (
             <div className="Container">
