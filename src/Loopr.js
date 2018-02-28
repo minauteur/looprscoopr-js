@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 export class Loopr extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = { items: [] };
         this.getLoops();
         this.checkLoops();
@@ -14,28 +14,42 @@ export class Loopr extends Component {
         };
     }
     checkLoops() {
-        this.checkLoops = function () {
+        this.checkLoops = function () { 
             fetch('https://microwavemansion.com/loopinfo')
-            .then(result => result.json())
-            .then(items => {
-               if (items == this.state.items) {
-                return false
-               } else {
-                   return true
-               }
-            })
+                .then(result => result.json())
+                .then(items => {
+                    if (items !== this.state.items) {
+                       this.setState({items});
+                    }
+                }
+            )
         }
     }
     componentDidMount() {
-        setInterval(this.getLoops(), 30000);
+        this.getLoops();
+        setInterval(() => this.checkLoops(), 3000);
     }
+    // shouldComponentUpdate() {
+    //     var checked = setInterval(this.checkLoops(), 30000)
+    //     if (checked === this.state.items) {
+    //         return false
+    //     } else return true
+    // }
     // shouldComponentUpdate() {
     //     setInterval(this.checkLoops(), 30000);
     // }
     // componentWillUpdate() {
-    //     this.getLoops();
+    //     var update = this.checkLoops();
+    //     var state = this.state.items;
+    //     var get = this.getLoops();
+    //     // var interval = setInterval(update, 30000)
+    //     setInterval(function() {
+    //         if (!(update === state)) {
+    //         get;
+    //     }
+    //     }, 30000);
     // }
-    // componentWillUpdate() {
+    // // componentWillUpdate() {
     //     setInterval(
     //         fetch('https://microwavemansion.com/loopinfo')
     //         .then(result => result.json())
@@ -46,7 +60,7 @@ export class Loopr extends Component {
         return (
             <div className="Container">
                 <ul>
-                    {this.state.items.map(item=><li key={item.name}>{item.name} <a href={item.url}><img src={item.img} alt={item.name}></img></a></li>)}
+                    {this.state.items.map(item=><li key={item.name}>{item.name} <a href={item.url}><img src={item.uri} alt={item.name}></img></a></li>)}
                 </ul>
             </div>
         );
